@@ -705,9 +705,149 @@ footer {
   footer{flex-direction:column;gap:0.5rem;padding:1.5rem}
   .hero-stats{flex-wrap:wrap;gap:1.5rem}
 }
+
+/* ===== LOADING SCREEN ===== */
+#loader {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#loader.hide { opacity: 0; visibility: hidden; }
+
+.loader-name {
+  font-family: "DM Serif Display", serif;
+  font-size: 1.6rem;
+  color: var(--hi);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+
+.loader-name span { color: var(--gold); }
+
+.loader-role {
+  font-size: 0.72rem;
+  color: var(--dim);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.loader-bar-wrap {
+  width: 160px; height: 1px;
+  background: var(--line);
+  position: relative; overflow: hidden;
+}
+
+.loader-bar-fill {
+  position: absolute; top: 0; left: 0;
+  height: 100%;
+  background: var(--gold);
+  animation: loaderFill 1.2s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+@keyframes loaderFill {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* ===== TYPING CURSOR ===== */
+.typing-cursor {
+  display: inline-block;
+  width: 2px; height: 1em;
+  background: var(--gold);
+  margin-left: 3px;
+  vertical-align: middle;
+  animation: blink 0.9s step-end infinite;
+}
+
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* ===== CUSTOM CURSOR ===== */
+.cursor-dot {
+  position: fixed;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s, opacity 0.2s;
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,169,126,0.5);
+  pointer-events: none;
+  z-index: 9997;
+  transform: translate(-50%, -50%);
+  transition: left 0.12s ease, top 0.12s ease, width 0.2s, height 0.2s, border-color 0.2s;
+}
+
+.cursor-ring.hover {
+  width: 44px; height: 44px;
+  border-color: var(--gold);
+}
+
+@media (hover: none) {
+  .cursor-dot, .cursor-ring { display: none; }
+}
+
+/* ===== BACK TO TOP ===== */
+.back-top {
+  position: fixed;
+  bottom: 2rem; right: 1.5rem;
+  width: 38px; height: 38px;
+  background: var(--bg2);
+  border: 1px solid var(--line-hi);
+  color: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 2px;
+  cursor: pointer;
+  z-index: 100;
+  font-size: 1rem;
+  opacity: 0; pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.3s, border-color 0.2s;
+  text-decoration: none;
+}
+
+.back-top.show { opacity: 1; pointer-events: all; transform: none; }
+.back-top:hover { border-color: var(--gold); background: var(--bg3); }
+
+/* ===== 3D CARD HOVER ===== */
+.proj-card {
+  transform-style: preserve-3d;
+  transition: background 0.2s, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.proj-card:hover {
+  transform: perspective(600px) rotateX(-2deg) translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+}
+
 </style>
 </head>
 <body>
+
+
+<div id="loader">
+  <div class="loader-name">Willy <span>Abiyanata</span></div>
+  <div class="loader-role">IT Sales Administrator</div>
+  <div class="loader-bar-wrap"><div class="loader-bar-fill"></div></div>
+</div>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<a href="#hero" class="back-top" id="backTop">↑</a>
 
 <button class="theme-btn" id="themeBtn">🌙</button>
 
@@ -731,7 +871,7 @@ footer {
       <div>
         <div class="hero-badge fu d1">IT Sales Administrator</div>
         <h1 class="hero-name fu d2">Willy<br><em>Abiyanata</em></h1>
-        <p class="hero-role fu d3">Teknologi &amp; Penjualan Produk IT · Surabaya</p>
+        <p class="hero-role fu d3"><span id="typingText"></span><span class="typing-cursor"></span></p>
         <p class="hero-desc fu d4">Profesional di bidang penjualan produk IT dengan keahlian mengelola proses sales, administrasi penawaran, dan koordinasi antara tim teknis dan klien. Berkomitmen menghadirkan solusi teknologi tepat sasaran.</p>
         <div class="hero-actions fu d5">
           <a href="#projects" class="btn btn-primary">Lihat Proyek →</a>
@@ -968,6 +1108,57 @@ footer {
 </footer>
 
 <script>
+// ── LOADER ──
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hide');
+  }, 1400);
+});
+
+// ── TYPING ──
+const typingEl = document.getElementById('typingText');
+const words = ['Teknologi & Penjualan Produk IT', 'IT Sales Administrator', 'Surabaya, Jawa Timur'];
+let wi = 0, ci = 0, deleting = false;
+
+function type() {
+  if (!typingEl) return;
+  const word = words[wi];
+  if (!deleting) {
+    typingEl.textContent = word.slice(0, ++ci);
+    if (ci === word.length) { deleting = true; setTimeout(type, 1800); return; }
+  } else {
+    typingEl.textContent = word.slice(0, --ci);
+    if (ci === 0) { deleting = false; wi = (wi + 1) % words.length; }
+  }
+  setTimeout(type, deleting ? 40 : 70);
+}
+setTimeout(type, 1600);
+
+// ── CUSTOM CURSOR ──
+const dot  = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  dot.style.left  = mx + 'px';
+  dot.style.top   = my + 'px';
+  ring.style.left = mx + 'px';
+  ring.style.top  = my + 'px';
+});
+
+document.querySelectorAll('a, button, .proj-card, .scat, .stat-cell').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+});
+
+// ── BACK TO TOP ──
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => {
+  backTop.classList.toggle('show', window.scrollY > 400);
+});
+
+
 // Hamburger
 const toggle = document.getElementById('navToggle');
 const navLinks = document.getElementById('navLinks');
