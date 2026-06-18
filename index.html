@@ -903,6 +903,171 @@ footer {
     .photo-wrap { display: none; }
   }
 
+
+  /* ===== LAYANAN SECTION ===== */
+  .layanan-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 3rem;
+  }
+
+  .layanan-card {
+    background: var(--bg2);
+    padding: 2rem;
+    transition: background 0.2s;
+    position: relative;
+  }
+
+  .layanan-card:hover { background: var(--bg3); }
+
+  .layanan-icon {
+    font-size: 2rem;
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .layanan-title {
+    font-family: "DM Serif Display", serif;
+    font-size: 1.05rem;
+    color: var(--hi);
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+
+  .layanan-desc {
+    font-size: 0.85rem;
+    color: var(--dim);
+    line-height: 1.75;
+  }
+
+  /* ===== TIMELINE / PERJALANAN ===== */
+  .timeline {
+    margin-top: 3rem;
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: var(--line);
+  }
+
+  .tl-item {
+    position: relative;
+    padding: 0 0 2.5rem 2rem;
+  }
+
+  .tl-item:last-child { padding-bottom: 0; }
+
+  .tl-dot {
+    position: absolute;
+    left: -1.85rem;
+    top: 0.3rem;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 2px var(--gold-d);
+  }
+
+  .tl-date {
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .tl-title {
+    font-family: "DM Serif Display", serif;
+    font-size: 1.05rem;
+    color: var(--hi);
+    margin-bottom: 0.3rem;
+  }
+
+  .tl-place {
+    font-size: 0.78rem;
+    color: var(--gold-d);
+    margin-bottom: 0.5rem;
+    font-style: italic;
+  }
+
+  .tl-desc {
+    font-size: 0.88rem;
+    color: var(--dim);
+    line-height: 1.75;
+  }
+
+  /* ===== TESTIMONI ===== */
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 3rem;
+  }
+
+  .testi-card {
+    background: var(--bg2);
+    padding: 2rem;
+    transition: background 0.2s;
+  }
+
+  .testi-card:hover { background: var(--bg3); }
+
+  .testi-quote {
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.85;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .testi-quote::before { content: '"'; color: var(--gold); font-size: 1.5rem; line-height: 0; vertical-align: -0.4em; margin-right: 4px; }
+  .testi-quote::after  { content: '"'; color: var(--gold); font-size: 1.5rem; line-height: 0; vertical-align: -0.4em; margin-left: 4px; }
+
+  .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .testi-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--gold-g);
+    border: 1px solid var(--gold-d);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    color: var(--gold);
+    font-family: "DM Serif Display", serif;
+    flex-shrink: 0;
+  }
+
+  .testi-name {
+    font-size: 0.82rem;
+    color: var(--hi);
+    font-weight: 500;
+  }
+
+  .testi-pos {
+    font-size: 0.72rem;
+    color: var(--dim);
+    margin-top: 0.1rem;
+  }
+
+  @media(max-width:768px) {
+    .layanan-grid { grid-template-columns: 1fr; }
+    .testi-grid   { grid-template-columns: 1fr; }
+  }
+
 </style>
 </head>
 <body>
@@ -927,6 +1092,7 @@ footer {
   </button>
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">Tentang</a></li>
+    <li><a href="#layanan">Layanan</a></li>
     <li><a href="#skills">Keahlian</a></li>
     <li><a href="#projects">Proyek</a></li>
     <li><a href="#contact-section">Kontak</a></li>
@@ -1133,12 +1299,120 @@ footer {
 
 <hr class="div">
 
+<!-- LAYANAN -->
+<section id="layanan">
+  <div class="wrap">
+    <p class="sec-eyebrow">04 — Layanan</p>
+    <h2 class="sec-title">Apa yang Saya <em>Tawarkan</em></h2>
+    <div class="layanan-grid stagger">
+      <div class="layanan-card">
+        <span class="layanan-icon">🖥️</span>
+        <h3 class="layanan-title">Konsultasi Produk IT</h3>
+        <p class="layanan-desc">Membantu klien memilih produk teknologi yang paling sesuai dengan kebutuhan dan anggaran mereka — dari laptop, server, hingga perangkat jaringan.</p>
+      </div>
+      <div class="layanan-card">
+        <span class="layanan-icon">📋</span>
+        <h3 class="layanan-title">Pengurusan Pengadaan</h3>
+        <p class="layanan-desc">Mengelola seluruh proses pengadaan barang IT mulai dari quotation, purchase order, hingga koordinasi pengiriman dan serah terima unit.</p>
+      </div>
+      <div class="layanan-card">
+        <span class="layanan-icon">🤝</span>
+        <h3 class="layanan-title">After Sales Support</h3>
+        <p class="layanan-desc">Memberikan dukungan purna jual yang responsif — memastikan klien puas setelah transaksi, termasuk koordinasi garansi dan penggantian unit.</p>
+      </div>
+      <div class="layanan-card">
+        <span class="layanan-icon">📊</span>
+        <h3 class="layanan-title">Administrasi Sales</h3>
+        <p class="layanan-desc">Pengelolaan dokumen penjualan secara rapi dan terstruktur — invoice, rekap penjualan, laporan bulanan, dan pengelolaan data klien.</p>
+      </div>
+      <div class="layanan-card">
+        <span class="layanan-icon">🔌</span>
+        <h3 class="layanan-title">Penjualan Semua Produk IT</h3>
+        <p class="layanan-desc">Menyediakan berbagai produk IT — laptop, PC, printer, CCTV, proyektor, UPS, software lisensi, aksesoris, dan semua kebutuhan teknologi bisnis Anda.</p>
+      </div>
+      <div class="layanan-card">
+        <span class="layanan-icon">🏢</span>
+        <h3 class="layanan-title">Solusi IT untuk Bisnis</h3>
+        <p class="layanan-desc">Merancang paket solusi teknologi terpadu untuk perusahaan, instansi, atau UMKM yang ingin meningkatkan produktivitas dengan perangkat IT yang tepat.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- PERJALANAN -->
+<section id="perjalanan">
+  <div class="wrap">
+    <p class="sec-eyebrow">05 — Perjalanan</p>
+    <h2 class="sec-title">Pengalaman <em>Karier</em></h2>
+    <div class="timeline reveal">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2026 — Sekarang</div>
+        <div class="tl-title">IT Sales Administrator</div>
+        <div class="tl-place">Industri Teknologi Informasi · Surabaya, Jawa Timur</div>
+        <p class="tl-desc">Mengelola proses penjualan produk IT secara end-to-end, mulai dari identifikasi kebutuhan klien, penyusunan quotation dan proposal, koordinasi dengan vendor, hingga pengurusan administrasi penjualan dan after sales support.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2023 — 2026</div>
+        <div class="tl-title">SMK Raden Rahmat Mojosari</div>
+        <div class="tl-place">Sekolah Menengah Kejuruan · Mojosari, Jawa Timur</div>
+        <p class="tl-desc">Menempuh pendidikan di SMK Raden Rahmat Mojosari dengan jurusan Teknik Komputer dan Jaringan (TKJ), mempelajari dasar-dasar jaringan komputer, troubleshooting hardware & software, serta instalasi sistem operasi yang menjadi fondasi karier di bidang teknologi informasi.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2020 — 2023</div>
+        <div class="tl-title">SMPN 1 Mojosari</div>
+        <div class="tl-place">Sekolah Menengah Pertama · Mojosari, Jawa Timur</div>
+        <p class="tl-desc">Menempuh pendidikan dasar menengah di SMPN 1 Mojosari, membentuk karakter dan disiplin sebagai pondasi awal perjalanan pendidikan dan karier.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- TESTIMONI -->
+<section id="testimoni">
+  <div class="wrap">
+    <p class="sec-eyebrow">06 — Testimoni</p>
+    <h2 class="sec-title">Kata <em>Klien</em></h2>
+    <div class="testi-grid stagger">
+      <div class="testi-card">
+        <p class="testi-quote">Willy sangat membantu dalam proses pengadaan laptop untuk kantor kami. Responsif, jujur soal spesifikasi produk, dan prosesnya sangat lancar dari awal sampai barang diterima.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">A</div>
+          <div>
+            <div class="testi-name">Ahmad R.</div>
+            <div class="testi-pos">Manager Operasional · Perusahaan Distribusi</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">Saya pesan printer dan aksesoris IT untuk toko saya lewat Willy. Harga kompetitif, barang datang tepat waktu, dan after sales-nya juga bagus. Akan order lagi untuk kebutuhan berikutnya.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">S</div>
+          <div>
+            <div class="testi-name">Sari W.</div>
+            <div class="testi-pos">Owner · Toko Retail Surabaya</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<hr class="div">
+
 <!-- CONTACT -->
 <section id="contact-section">
   <div class="wrap">
     <div class="contact-grid">
       <div>
-        <p class="sec-eyebrow">04 — Kontak</p>
+        <p class="sec-eyebrow">07 — Kontak</p>
         <h2 class="sec-title">Mari <em>Berkolaborasi</em></h2>
         <div class="contact-intro reveal">
           <p>Butuh solusi produk IT untuk bisnis Anda, atau ingin berdiskusi soal pengadaan teknologi? Saya siap membantu menemukan solusi terbaik sesuai kebutuhan dan anggaran Anda.</p>
